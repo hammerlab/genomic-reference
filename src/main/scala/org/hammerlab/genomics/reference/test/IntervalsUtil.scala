@@ -1,4 +1,4 @@
-package org.hammerlab.genomics.reference
+package org.hammerlab.genomics.reference.test
 
 trait IntervalsUtil {
   def makeIntervals(intervals: Seq[(Int, Int, Int)]): BufferedIterator[TestInterval] =
