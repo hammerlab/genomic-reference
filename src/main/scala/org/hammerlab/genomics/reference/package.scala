@@ -22,10 +22,8 @@ package object reference {
 
   type KmerLength = Int
 
-  implicit class ContigName(val name: String)
-    extends AnyVal
-      with Serializable
-      with Ordered[ContigName] {
+  case class ContigName private(name: String)
+    extends Ordered[ContigName] {
 
     import ContigName.notFound
 
@@ -58,6 +56,8 @@ package object reference {
    */
   object ContigName {
 
+    implicit def makeContigName(contigName: String): ContigName = ContigName(contigName.intern)
+
     // Map from string contig name to ordered rank.
     private val map: Map[String, Int] = ((1 to 22).map(_.toString) ++ List("X", "Y")).zipWithIndex.toMap
 
@@ -68,9 +68,8 @@ package object reference {
 
   private val lociOrdering = implicitly[Ordering[LociT]]
 
-  implicit class Locus(val locus: LociT)
-    extends AnyVal
-      with Ordered[Locus]
+  case class Locus(locus: LociT)
+    extends Ordered[Locus]
       with Comparable[Locus] {
 
     def num = locus
