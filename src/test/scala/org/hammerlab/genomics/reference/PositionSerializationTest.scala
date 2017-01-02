@@ -9,7 +9,7 @@ class PositionSerializationTest
     with LocusUtil {
 
   test("Position/ContigName classes add no serde space-overhead") {
-    serialize(Position("chr1", 123)).length should ===(7)
+    serialize(Position("chr1", 123)).length should ===(9)
 
     serialize("chr1").length should ===(5)
     serialize(123).length should ===(3)
