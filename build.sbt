@@ -1,9 +1,15 @@
 organization := "org.hammerlab.genomics"
 name := "reference"
-version := "1.0.1"
+version := "1.1.0"
 
-libraryDependencies ++= Seq(
-  libraries.value('kryo)
+// This branch only builds against Scala 2.11.x.
+
+scala211Only
+
+deps ++= Seq(
+  libs.value('genomic_utils),
+  libs.value('iterators)
 )
 
-testDeps += libraries.value('test_utils)
+addSparkDeps
+publishTestJar

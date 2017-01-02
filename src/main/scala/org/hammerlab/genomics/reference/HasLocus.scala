@@ -1,6 +1,6 @@
 package org.hammerlab.genomics.reference
 
-trait HasLocus {
+trait HasLocus extends Any {
   def locus: Locus
 }
 

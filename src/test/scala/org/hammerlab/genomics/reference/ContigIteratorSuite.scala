@@ -1,26 +1,25 @@
 package org.hammerlab.genomics.reference
 
-import org.hammerlab.genomics.reference.test.{ RegionsUtil, TestRegion }
+import org.hammerlab.genomics.reference.test.LocusUtil
+import org.hammerlab.genomics.reference.test.region._
 import org.hammerlab.test.Suite
 
 class ContigIteratorSuite
   extends Suite
-    with RegionsUtil {
+    with LocusUtil {
 
   test("simple") {
     ContigIterator(
-      makeRegions(
-        List(
-          ("chr1", 100, 200, 2),
-          ("chr1", 110, 210, 1),
-          ("chr2", 100, 200, 3)
-        )
+      Seq(
+        ("chr1", 100, 200, 2),
+        ("chr1", 110, 210, 1),
+        ("chr2", 100, 200, 3)
       )
-    ).toList should be(
-      List(
-        TestRegion("chr1", 100, 200),
-        TestRegion("chr1", 100, 200),
-        TestRegion("chr1", 110, 210)
+    ).toSeq should ===(
+      Seq(
+        ("chr1", 100, 200),
+        ("chr1", 100, 200),
+        ("chr1", 110, 210)
       )
     )
   }
@@ -28,20 +27,18 @@ class ContigIteratorSuite
   test("next past end") {
     val it =
       ContigIterator(
-        makeRegions(
-          List(
-            ("chr1", 100, 200, 1),
-            ("chr1", 110, 210, 1),
-            ("chr2", 100, 200, 3)
-          )
+        Seq(
+          ("chr1", 100, 200, 1),
+          ("chr1", 110, 210, 1),
+          ("chr2", 100, 200, 3)
         )
       )
 
-    it.hasNext should be(true)
-    it.next() should be(TestRegion("chr1", 100, 200))
-    it.hasNext should be(true)
-    it.next() should be(TestRegion("chr1", 110, 210))
-    it.hasNext should be(false)
+    it.hasNext === true
+    it.next() === ("chr1", 100, 200)
+    it.hasNext === true
+    it.next() === ("chr1", 110, 210)
+    it.hasNext === false
     intercept[NoSuchElementException] {
       it.next()
     }
