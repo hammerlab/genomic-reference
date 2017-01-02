@@ -1,6 +1,6 @@
 package org.hammerlab.genomics.reference.test
 
-import org.hammerlab.test.implicits.{ convertKey, toList }
+import org.hammerlab.test.implicits.{ convertArray, convertKey, toList }
 import org.hammerlab.genomics.reference.Locus
 
 trait LocusUtil {
@@ -16,6 +16,7 @@ trait LocusUtil {
 
   implicit def rangeToList(range: Range): List[Locus] = range.toList.map(Locus(_))
   implicit def toLocusList = toList[Int, Locus] _
+  implicit def toLocusArray = convertArray[Int, Locus] _
 }
 
 object LocusUtil extends LocusUtil
