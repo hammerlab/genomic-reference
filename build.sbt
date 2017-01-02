@@ -1,9 +1,11 @@
 organization := "org.hammerlab.genomics"
 name := "reference"
-version := "1.0.1"
+version := "1.0.2-SNAPSHOT"
 
-libraryDependencies ++= Seq(
-  libraries.value('kryo)
+deps ++= Seq(
+  libs.value('genomic_utils),
+  libs.value('iterators)
 )
 
-testDeps += libraries.value('test_utils)
+addSparkDeps
+publishTestJar

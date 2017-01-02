@@ -1,11 +1,13 @@
 package org.hammerlab.genomics.reference
 
+import org.hammerlab.genomics.bases.Bases
+
 case class Slice(contigName: ContigName,
                  start: Locus,
-                 bases: Seq[Byte])
+                 bases: Bases)
   extends Region {
 
-  val end: Locus = start + bases.size
+  val end: Locus = start + bases.length
 
   private def locusToIndex(locus: Locus): Int = (locus - start).toInt
 

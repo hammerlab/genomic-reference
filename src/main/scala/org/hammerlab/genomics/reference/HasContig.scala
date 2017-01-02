@@ -1,5 +1,5 @@
 package org.hammerlab.genomics.reference
 
-trait HasContig {
+trait HasContig extends Any {
   def contigName: ContigName
 }

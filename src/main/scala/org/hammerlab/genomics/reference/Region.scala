@@ -4,14 +4,15 @@ package org.hammerlab.genomics.reference
  * Trait for objects that are associated with an interval on a genomic contig.
  */
 trait Region
-  extends HasContig
+  extends Any
+    with HasContig
     with Interval {
+
   /**
    * Does the region overlap the given locus, with halfWindowSize padding?
    */
-  def overlapsLocus(locus: Locus, halfWindowSize: Int = 0): Boolean = {
-    start - halfWindowSize <= locus && end + halfWindowSize > locus
-  }
+  def overlapsLocus(locus: Locus, halfWindowSize: WindowSize = 0): Boolean =
+     start - halfWindowSize <= locus && locus < end + halfWindowSize
 
   /**
    * Does the region overlap another reference region
@@ -19,11 +20,11 @@ trait Region
    * @param other another region on the genome
    * @return True if the the regions overlap
    */
-  def overlaps(other: Region): Boolean = {
-    other.contigName == contigName && (overlapsLocus(other.start) || other.overlapsLocus(start))
-  }
+  def overlaps(other: Region): Boolean =
+    other.contigName == contigName &&
+      (overlapsLocus(other.start) || other.overlapsLocus(start))
 
-  def regionStr: String = s"$contigName:[$start-$end)"
+  override def toString: String = s"$contigName:$start-$end"
 }
 
 object Region {
@@ -44,6 +45,9 @@ object Region {
   def apply(contigName: ContigName, start: Locus, end: Locus): Region =
     RegionImpl(contigName, start, end)
 
+  def apply(contigName: ContigName, interval: Interval): Region =
+    RegionImpl(contigName, interval.start, interval.end)
+
   def unapply(region: Region): Option[(ContigName, Locus, Locus)] =
     Some(
       region.contigName,
@@ -52,4 +56,10 @@ object Region {
     )
 }
 
-private case class RegionImpl(contigName: ContigName, start: Locus, end: Locus) extends Region
+private case class RegionImpl(t: (ContigName, Locus, Locus))
+  extends AnyVal
+    with Region {
+  override def contigName: ContigName = t._1
+  override def start: Locus = t._2
+  override def end: Locus = t._3
+}

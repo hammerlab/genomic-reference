@@ -1,7 +1,10 @@
 package org.hammerlab.genomics.reference
 
-trait ContigSequence {
-  def apply(locus: Locus): Byte
-  def slice(start: Locus, end: Locus): Array[Byte]
+import org.hammerlab.genomics.bases.{ Base, Bases, BasesBuffer }
+
+trait ContigSequence extends BasesBuffer {
+  override type LengthT = NumLoci
+  def apply(locus: Locus): Base
+  def slice(start: Locus, length: Int): Bases
   def length: NumLoci
 }
