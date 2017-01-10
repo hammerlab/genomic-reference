@@ -22,48 +22,6 @@ package object reference {
 
   type KmerLength = Int
 
-  implicit class ContigName(val name: String)
-    extends AnyVal
-      with Serializable
-      with Ordered[ContigName] {
-
-    import ContigName.notFound
-
-    // Sort order: chr1, chr2, …, chr22, chrX, chrY, <other>.
-    override def compare(that: ContigName): Int = {
-      if (getContigRank == notFound && that.getContigRank == notFound)
-        name.compare(that.name)
-      else
-        getContigRank - that.getContigRank
-    }
-
-    private def normalizedName: String =
-      if (name.startsWith("chr"))
-        name.drop(3)
-      else
-        name
-
-    private def getContigRank: Int =
-      ContigName.map
-        .getOrElse(
-          normalizedName,
-          notFound
-        )
-
-    override def toString: String = name
-  }
-
-  /**
-   * Helpers for dealing with contig-name strings.
-   */
-  object ContigName {
-
-    // Map from string contig name to ordered rank.
-    private val map: Map[String, Int] = ((1 to 22).map(_.toString) ++ List("X", "Y")).zipWithIndex.toMap
-
-    private val notFound = map.size
-  }
-
   private type LociT = Long
 
   private val lociOrdering = implicitly[Ordering[LociT]]
@@ -71,7 +29,8 @@ package object reference {
   implicit class Locus(val locus: LociT)
     extends AnyVal
       with Ordered[Locus]
-      with Comparable[Locus] {
+      with Comparable[Locus]
+      with Serializable {
 
     def num = locus
     
