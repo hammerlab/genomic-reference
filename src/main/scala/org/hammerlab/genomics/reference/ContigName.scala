@@ -9,7 +9,8 @@ import scala.collection.mutable
  * [[org.hammerlab.genomics.reference.ContigName.Factory]] to decide whether to allow+collapse observed contig-names
  * like "chr1" and "1" or throw an
  * [[org.hammerlab.genomics.reference.ContigName.InconsistentContigNamesException]]; default behavior is the
- * latter, but permissive handling can be enabled by importing [[org.hammerlab.genomics.reference.ContigName.LenientInterface]].
+ * latter, but permissive handling can be enabled by importing
+ * [[org.hammerlab.genomics.reference.ContigName.LenientInterface]].
  *
  * Wrapped strings are interned.
  */
@@ -61,12 +62,27 @@ object ContigName {
   def apply(name: String)(implicit factory: Factory): ContigName = name
 
   object Normalization {
-    // Import this in order to allow "permissive" contig-name creation/handling: "chr1" and "1" will be normalized to
-    // just "1".
+
+    /**
+     * Import this in order to allow "permissive" contig-name creation/handling: "chr1" and "1" will be normalized to
+     * just "1".
+     */
     implicit object Lenient extends LenientInterface
+
+    /**
+     * [[Strict]] is also exposed here for symmetery with [[Lenient]].
+     */
     implicit val Strict = ContigName.Strict
   }
 
+  /**
+   * Interface for classes that gate the construction of [[ContigName]] instances, and can optionally normalize/validate
+   * them.
+   *
+   * [[Strict]] is implicitly used by default and verifies that contigs of different "styles" are not mixed.
+   *
+   * Importing [[Normalization.Lenient]] will disable such checks.
+   */
   sealed trait Factory
     extends Serializable
       with Function1[String, ContigName] {
@@ -122,6 +138,9 @@ object ContigName {
     override def toString(): String = "Lenient"
   }
 
+  /**
+   * Thrown when [[Strict]] finds conflicting [[ContigName]]s, e.g. "1" and "chr1".
+   */
   case class InconsistentContigNamesException(name: String)
     extends Exception(
       s"Contig name $name is inconsistent with previously-observed contigs: ${ContigName.names.keys.toVector.sorted.mkString(",")}"

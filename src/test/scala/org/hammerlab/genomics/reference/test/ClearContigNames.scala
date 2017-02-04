@@ -1,7 +1,8 @@
 package org.hammerlab.genomics.reference.test
 
 import org.hammerlab.genomics.reference.ContigName
-import org.scalatest.{ BeforeAndAfterEach, Suite }
+import org.hammerlab.test.Suite
+import org.scalatest.BeforeAndAfterEach
 
 /**
  * Mix-in that resets the contig-name cache in the default implicit
@@ -12,8 +13,7 @@ trait ClearContigNames
 
   self: Suite ⇒
 
-  abstract override def beforeEach(): Unit = {
-    super.beforeEach()
+  before {
     ContigName.Strict.clear()
   }
 }
