@@ -1,6 +1,6 @@
 package org.hammerlab.genomics.reference
 
-import scala.collection.mutable
+import scala.collection.concurrent
 
 /**
  * Implicit-value-class wrapper for strings representing names of contigs.
@@ -56,7 +56,8 @@ object ContigName {
 
   implicit def makeContigName(contigName: String)(implicit factory: Factory): ContigName = factory(contigName)
 
-  private[reference] val names = mutable.Map[String, ContigName]()
+  // Can be accessed by multiple threads at once.
+  private[reference] val names = concurrent.TrieMap[String, ContigName]()
 
   // Map from string contig name to ordered rank.
   private[reference] val map: Map[String, Int] =
