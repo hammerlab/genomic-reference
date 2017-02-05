@@ -1,5 +1,7 @@
 package org.hammerlab.genomics.reference
 
+import com.esotericsoftware.kryo.Kryo
+
 /**
  * Trait for objects that are associated with an interval on a genomic contig.
  */
@@ -54,6 +56,10 @@ object Region {
       region.start,
       region.end
     )
+
+  def register(kryo: Kryo): Unit = {
+    kryo.register(classOf[RegionImpl])
+  }
 }
 
 private case class RegionImpl(t: (ContigName, Locus, Locus))

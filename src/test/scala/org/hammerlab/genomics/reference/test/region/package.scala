@@ -1,8 +1,7 @@
 package org.hammerlab.genomics.reference.test
 
-import org.hammerlab.genomics.reference.{ ContigName, Region }
-
-import org.hammerlab.genomics.reference.test.LocusUtil._
+import org.hammerlab.genomics.reference.Region
+import org.hammerlab.genomics.reference.test.LociConversions._
 
 package object region {
   implicit def makeRegion(t: (String, Int, Int)): Region = Region(t._1, t._2, t._3)
@@ -16,7 +15,7 @@ package object region {
       i <- 0 until num
     } yield
       Region(contig, start, end)
-      )
+    )
     .iterator
     .buffered
 
