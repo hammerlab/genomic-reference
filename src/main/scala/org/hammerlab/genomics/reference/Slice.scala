@@ -14,7 +14,7 @@ case class Slice(contigName: ContigName,
   def apply(locus: Locus): Byte =
     bases(locusToIndex(locus))
 
-  def slice(sliceStart: Locus, sliceEnd: Locus = end): Seq[Byte] =
+  def slice(sliceStart: Locus, sliceEnd: Locus = end): Bases =
     bases.slice(
       locusToIndex(sliceStart),
       locusToIndex(sliceEnd)

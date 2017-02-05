@@ -22,48 +22,6 @@ package object reference {
 
   type KmerLength = Int
 
-  case class ContigName private(name: String)
-    extends Ordered[ContigName] {
-
-    import ContigName.notFound
-
-    // Sort order: chr1, chr2, …, chr22, chrX, chrY, <other>.
-    override def compare(that: ContigName): Int = {
-      if (getContigRank == notFound && that.getContigRank == notFound)
-        name.compare(that.name)
-      else
-        getContigRank - that.getContigRank
-    }
-
-    private def normalizedName: String =
-      if (name.startsWith("chr"))
-        name.drop(3)
-      else
-        name
-
-    private def getContigRank: Int =
-      ContigName.map
-        .getOrElse(
-          normalizedName,
-          notFound
-        )
-
-    override def toString: String = name
-  }
-
-  /**
-   * Helpers for dealing with contig-name strings.
-   */
-  object ContigName {
-
-    implicit def makeContigName(contigName: String): ContigName = ContigName(contigName.intern)
-
-    // Map from string contig name to ordered rank.
-    private val map: Map[String, Int] = ((1 to 22).map(_.toString) ++ List("X", "Y")).zipWithIndex.toMap
-
-    private val notFound = map.size
-  }
-
   private type LociT = Long
 
   private val lociOrdering = implicitly[Ordering[LociT]]

@@ -1,11 +1,12 @@
 package org.hammerlab.genomics.reference
 
-import org.hammerlab.genomics.reference.test.LocusUtil
+import org.hammerlab.genomics.reference.test.ClearContigNames
 import org.hammerlab.test.Suite
+import org.hammerlab.genomics.reference.test.LociConversions._
 
 class RegionSuite
   extends Suite
-    with LocusUtil {
+    with ClearContigNames {
 
   test("overlapping reads") {
     val read1 = Region("1", 1, 9)

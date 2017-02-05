@@ -1,7 +1,7 @@
 package org.hammerlab.genomics.reference.test
 
-import org.hammerlab.genomics.reference.{ Interval, Locus }
-import LocusUtil._
+import org.hammerlab.genomics.reference.Interval
+import org.hammerlab.genomics.reference.test.LociConversions._
 
 trait IntervalsUtil {
   def makeIntervals(intervals: Seq[(Int, Int, Int)]): BufferedIterator[Interval] =
