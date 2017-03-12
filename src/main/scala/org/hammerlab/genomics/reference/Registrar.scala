@@ -21,3 +21,5 @@ abstract class RegistrarI(factory: Factory) extends KryoRegistrator {
  */
 class Registrar extends RegistrarI(Normalization.Strict)
 class PermissiveRegistrar extends RegistrarI(Normalization.Lenient)
+
+object PermissiveRegistrar extends PermissiveRegistrar
