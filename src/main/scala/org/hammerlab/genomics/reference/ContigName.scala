@@ -8,9 +8,9 @@ import scala.collection.concurrent
  * Construction is controlled by the companion object, which uses an implicit
  * [[org.hammerlab.genomics.reference.ContigName.Factory]] to decide whether to allow+collapse observed contig-names
  * like "chr1" and "1" or throw an
- * [[org.hammerlab.genomics.reference.ContigName.InconsistentContigNamesException]]; default behavior is the
+ * [[org.hammerlab.genomics.reference.ContigName.Strict.InconsistentContigNamesException]]; default behavior is the
  * latter, but permissive handling can be enabled by importing
- * [[org.hammerlab.genomics.reference.ContigName.LenientInterface]].
+ * [[org.hammerlab.genomics.reference.ContigName.Normalization.Lenient]].
  *
  * Wrapped strings are interned.
  */
@@ -49,9 +49,6 @@ class ContigName private(val name: String)
  */
 object ContigName {
 
-  // Can be accessed by multiple threads at once.
-  private[reference] val names = concurrent.TrieMap[String, ContigName]()
-
   // Map from string contig name to ordered rank.
   private[reference] val map: Map[String, Int] =
     ((1 to 22).map(_.toString) ++ List("X", "Y", "MT"))
@@ -88,6 +85,9 @@ object ContigName {
     extends Serializable
       with Function1[String, ContigName] {
 
+    // Can be accessed by multiple threads at once.
+    private[reference] val names = concurrent.TrieMap[String, ContigName]()
+
     override def apply(name: String): ContigName = {
       val normalizedName = normalize(name).intern()
       names.getOrElseUpdate(
@@ -103,7 +103,7 @@ object ContigName {
   implicit object Strict extends Factory {
     def clear(): Unit = {
       seenChrsOpt = None
-      ContigName.names.clear()
+      names.clear()
     }
 
     /**
@@ -112,21 +112,28 @@ object ContigName {
      */
     var seenChrsOpt: Option[Boolean] = None
 
-    override def normalize(name: String): String =
+    override def normalize(name: String): String = {
       if (name.startsWith("chr") && map.contains(name.drop(3))) {
         if (seenChrsOpt.contains(false))
           throw InconsistentContigNamesException(name)
         seenChrsOpt = Some(true)
-        name
       } else if (map.contains(name)) {
         if (seenChrsOpt.contains(true))
           throw InconsistentContigNamesException(name)
         seenChrsOpt = Some(false)
-        name
-      } else
-        name
+      }
+      name
+    }
 
     override def toString(): String = "Strict"
+
+    /**
+     * Thrown when conflicting [[ContigName]]s are found, e.g. "1" and "chr1".
+     */
+    case class InconsistentContigNamesException(name: String)
+      extends Exception(
+        s"Contig name $name is inconsistent with previously-observed contigs: ${names.keys.toVector.sorted.mkString(",")}"
+      )
   }
 
   trait LenientInterface extends Factory {
@@ -138,12 +145,4 @@ object ContigName {
 
     override def toString(): String = "Lenient"
   }
-
-  /**
-   * Thrown when [[Strict]] finds conflicting [[ContigName]]s, e.g. "1" and "chr1".
-   */
-  case class InconsistentContigNamesException(name: String)
-    extends Exception(
-      s"Contig name $name is inconsistent with previously-observed contigs: ${ContigName.names.keys.toVector.sorted.mkString(",")}"
-    )
 }

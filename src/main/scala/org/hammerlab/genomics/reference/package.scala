@@ -1,7 +1,5 @@
 package org.hammerlab.genomics
 
-import org.hammerlab.genomics.bases.Bases
-
 package object reference {
 
   private val intOrdering = implicitly[Ordering[Int]]
@@ -26,7 +24,7 @@ package object reference {
 
   private val lociOrdering = implicitly[Ordering[LociT]]
 
-  implicit class Locus(val locus: LociT)
+  class Locus(val locus: LociT)
     extends AnyVal
       with Ordered[Locus]
       with Comparable[Locus]
@@ -37,14 +35,14 @@ package object reference {
     override def compare(that: Locus): Int =
       lociOrdering.compare(locus, that.locus)
 
-    def prev: Locus = locus - 1
+    def prev: Locus = Locus(locus - 1)
     def next: Locus = new Locus(locus + 1)
 
     def +(other: Locus): Locus = new Locus(locus + other.locus)
-    def -(other: Locus): Locus = math.max(0, locus - other.locus)
+    def -(other: Locus): Locus = Locus(math.max(0, locus - other.locus))
 
-    def -(n: Int): Locus = Locus(math.max(0, locus - n))
     def +(n: Int): Locus = Locus(locus + n)
+    def -(n: Int): Locus = Locus(math.max(0, locus - n))
 
     def min(other: Locus): Locus = Locus(locus min other.locus)
     def max(other: Locus): Locus = Locus(locus max other.locus)
@@ -61,10 +59,7 @@ package object reference {
 
   implicit object Locus extends Numeric[Locus] {
 
-    implicit def makeLocus(locus: LociT): Locus = Locus(locus)
-
-    def apply(basesLength: Bases#LengthT): Locus = new Locus(basesLength.size)
-    def apply(locus: Locus): Locus = new Locus(locus.locus)
+    def apply(locus: LociT): Locus = new Locus(locus)
 
     implicit def unwrapLocus(locus: Locus): LociT = locus.locus
 
