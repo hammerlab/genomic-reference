@@ -1,6 +1,6 @@
 organization := "org.hammerlab.genomics"
 name := "reference"
-version := "1.2.3-SNAPSHOT"
+version := "1.2.3"
 
 // This branch only builds against Scala 2.11.x.
 
