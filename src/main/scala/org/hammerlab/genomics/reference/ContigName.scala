@@ -92,7 +92,7 @@ object ContigName {
       val normalizedName = normalize(name).intern()
       names.getOrElseUpdate(
         normalizedName,
-        new ContigName(name.intern())
+        new ContigName(normalizedName)
       )
     }
 
@@ -101,7 +101,9 @@ object ContigName {
 
   // Strict ContigName-validation is the default.
   implicit object Strict extends Factory {
-    def clear(): Unit = {
+
+    // Exposed for testing
+    private[reference] def clear(): Unit = {
       seenChrsOpt = None
       names.clear()
     }

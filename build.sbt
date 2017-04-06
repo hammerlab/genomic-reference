@@ -1,10 +1,6 @@
 organization := "org.hammerlab.genomics"
 name := "reference"
-version := "1.2.3"
-
-// This branch only builds against Scala 2.11.x.
-
-scala211Only
+version := "1.2.4-SNAPSHOT"
 
 enableMacroParadise
 
