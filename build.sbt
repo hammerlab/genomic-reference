@@ -1,6 +1,6 @@
 organization := "org.hammerlab.genomics"
 name := "reference"
-version := "1.3.0-SNAPSHOT"
+version := "1.3.0"
 
 enableMacroParadise
 
