@@ -1,11 +1,11 @@
 organization := "org.hammerlab.genomics"
 name := "reference"
-version := "1.3.1-SNAPSHOT"
+version := "1.4.0-SNAPSHOT"
 
 enableMacroParadise
 
 deps ++= Seq(
-  genomic_utils % "1.2.3",
+  genomic_utils % "1.3.0-SNAPSHOT",
   iterators % "1.3.0-SNAPSHOT"
 )
 
