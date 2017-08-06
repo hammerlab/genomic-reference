@@ -1,12 +1,12 @@
 organization := "org.hammerlab.genomics"
 name := "reference"
-version := "1.3.0"
+version := "1.4.0"
 
 enableMacroParadise
 
 deps ++= Seq(
-  libs.value('genomic_utils),
-  libs.value('iterators)
+  genomic_utils % "1.3.0",
+  iterators % "1.3.0"
 )
 
 addSparkDeps
