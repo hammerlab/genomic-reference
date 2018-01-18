@@ -1,6 +1,5 @@
 group("org.hammerlab.genomics")
 name := "reference"
-r"1.4.0"
 github.repo("genomic-reference")
 
 enableMacroParadise
