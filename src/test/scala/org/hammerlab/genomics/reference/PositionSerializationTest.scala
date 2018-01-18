@@ -4,10 +4,12 @@ import org.hammerlab.genomics.reference.test.{ ClearContigNames, LociConversions
 import org.hammerlab.spark.test.suite.{ KryoSparkSuite, SparkSerialization }
 
 class PositionSerializationTest
-  extends KryoSparkSuite(classOf[Registrar])
+  extends KryoSparkSuite
     with SparkSerialization
     with LociConversions
     with ClearContigNames {
+
+  registrar[Registrar]
 
   test("Position/ContigName classes add no serde space-overhead") {
     serialize(Position("chr1", 123)).length should ===(7)

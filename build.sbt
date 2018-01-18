@@ -1,12 +1,12 @@
-organization := "org.hammerlab.genomics"
+group("org.hammerlab.genomics")
 name := "reference"
-version := "1.4.0"
+github.repo("genomic-reference")
 
 enableMacroParadise
 
-deps ++= Seq(
+dep(
   genomic_utils % "1.3.1",
-  iterators % "1.3.0"
+      iterators % "2.0.0"
 )
 
 addSparkDeps
