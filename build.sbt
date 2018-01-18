@@ -7,7 +7,7 @@ enableMacroParadise
 
 dep(
   genomic_utils % "1.3.1",
-      iterators % "1.3.0"
+      iterators % "2.0.0"
 )
 
 addSparkDeps

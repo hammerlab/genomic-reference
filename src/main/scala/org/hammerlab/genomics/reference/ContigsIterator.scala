@@ -1,6 +1,6 @@
 package org.hammerlab.genomics.reference
 
-import org.hammerlab.iterator.SimpleBufferedIterator
+import hammerlab.iterator._
 
 import scala.collection.mutable
 
@@ -15,7 +15,7 @@ import scala.collection.mutable
  */
 class ContigsIterator[T] private(it: BufferedIterator[T],
                                  contigNameFn: T => ContigName)
-  extends SimpleBufferedIterator[(ContigName, ContigIterator[T])] {
+  extends SimpleIterator[(ContigName, ContigIterator[T])] {
 
   var contigRegions: ContigIterator[T] = _
 
