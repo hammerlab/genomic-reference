@@ -103,7 +103,7 @@ object ContigName {
   implicit object Strict extends Factory {
 
     // Exposed for testing
-    private[reference] def clear(): Unit = {
+    def clear(): Unit = {
       seenChrsOpt = None
       names.clear()
     }
