@@ -2,7 +2,7 @@ package org.hammerlab.genomics.reference.test
 
 import org.hammerlab.genomics.reference.ContigName
 import org.hammerlab.genomics.reference.ContigName.Normalization.Lenient
-import org.hammerlab.test.implicits.Conversions
+import org.hammerlab.macros.Conversions
 
 /**
  * Implicit helpers for converting [[String]]s to [[ContigName]]s, with lenient checking of constructed [[ContigName]]s.

@@ -4,9 +4,12 @@ github.repo("genomic-reference")
 
 enableMacroParadise
 
+val conversions = hammerlab("macros", "conversions")
+
 dep(
-  genomic_utils % "1.3.1",
-      iterators % "2.0.0"
+     conversions % "1.0.0" tests,
+  genomics.utils % "1.3.1",
+       iterators % "2.1.0"
 )
 
 addSparkDeps

@@ -1,7 +1,7 @@
 package org.hammerlab.genomics.reference.test
 
 import org.hammerlab.genomics.reference.Locus
-import org.hammerlab.test.implicits.Conversions
+import org.hammerlab.macros.Conversions
 
 /**
  * Implicit helpers for converting [[Int]]s to [[Locus]]s.
