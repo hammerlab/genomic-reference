@@ -1,6 +1,6 @@
 group("org.hammerlab.genomics")
 name := "reference"
-github.repo("genomic-reference")
+v"1.4.3"
 
 enableMacroParadise
 
@@ -14,3 +14,4 @@ dep(
 
 addSparkDeps
 publishTestJar
+github.repo("genomic-reference")

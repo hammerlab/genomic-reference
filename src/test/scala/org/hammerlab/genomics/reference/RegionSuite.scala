@@ -1,7 +1,7 @@
 package org.hammerlab.genomics.reference
 
+import hammerlab.test.Suite
 import org.hammerlab.genomics.reference.test.ClearContigNames
-import org.hammerlab.test.Suite
 import org.hammerlab.genomics.reference.test.LociConversions._
 
 class RegionSuite

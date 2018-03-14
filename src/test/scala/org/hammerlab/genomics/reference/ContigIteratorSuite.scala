@@ -1,9 +1,8 @@
 package org.hammerlab.genomics.reference
 
-import org.hammerlab.genomics.reference.test.ClearContigNames
+import hammerlab.test.Suite
+import org.hammerlab.genomics.reference.test.{ ClearContigNames, LociConversions }
 import org.hammerlab.genomics.reference.test.region._
-import org.hammerlab.test.Suite
-import org.hammerlab.genomics.reference.test.LociConversions
 
 class ContigIteratorSuite
   extends Suite
