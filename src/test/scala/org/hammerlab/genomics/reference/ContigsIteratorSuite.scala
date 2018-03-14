@@ -1,13 +1,11 @@
 package org.hammerlab.genomics.reference
 
+import hammerlab.test.Suite
 import org.hammerlab.genomics.reference.test.ClearContigNames
 import org.hammerlab.genomics.reference.test.region._
-import org.hammerlab.test.Suite
-import org.scalatest.BeforeAndAfterAll
 
 class ContigsIteratorSuite
   extends Suite
-    with BeforeAndAfterAll
     with ClearContigNames {
 
   implicit def convertTuple(t: (String, List[(String, Int, Int)])): (ContigName, List[Region]) = (t._1, t._2)

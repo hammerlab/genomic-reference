@@ -1,8 +1,8 @@
 package org.hammerlab.genomics.reference.test
 
+import hammerlab.test.Suite
 import org.hammerlab.genomics.reference.ContigName
 import org.hammerlab.genomics.reference.ContigName.Strict.InconsistentContigNamesException
-import org.hammerlab.test.Suite
 
 class ContigNameSuite
   extends Suite
