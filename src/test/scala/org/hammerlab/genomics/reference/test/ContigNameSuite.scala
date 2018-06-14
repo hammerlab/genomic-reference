@@ -25,14 +25,15 @@ class ContigNameSuite
   }
 
   test("permissive option lifting") {
-    Option(ContigName("chr1")) should === (Some("1"))
+    ==(Option(ContigName("chr1")), Some("1"))
   }
 
   test("permissive map conversion") {
-    Map(
-      ContigName("1") → 123,
-      ContigName("2") → 456
-    ) should ===(
+    ==(
+      Map(
+        ContigName("1") → 123,
+        ContigName("2") → 456
+      ),
       Map(
         "chr2" → 456,
         "chr1" → 123
