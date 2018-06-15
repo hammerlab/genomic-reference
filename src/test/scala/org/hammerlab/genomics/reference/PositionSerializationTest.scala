@@ -12,13 +12,13 @@ class PositionSerializationTest
   registrar[Registrar]
 
   test("Position/ContigName classes add no serde space-overhead") {
-    serialize(Position("chr1", 123)).length should ===(7)
+    ==(serialize(Position("chr1", 123)).length, 7)
 
-    serialize("chr1").length should ===(5)
-    serialize(123).length should ===(3)
+    ==(serialize("chr1").length, 5)
+    ==(serialize(123).length, 3)
 
-    serialize("chr1": ContigName).length should ===(5)
+    ==(serialize("chr1": ContigName).length, 5)
 
-    serialize(("chr1", 123)).length should ===(9)
+    ==(serialize(("chr1", 123)).length, 9)
   }
 }
